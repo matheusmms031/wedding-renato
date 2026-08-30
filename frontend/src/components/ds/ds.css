@@ -1,0 +1,287 @@
+/* Design-system primitives: Button, Input, Card, SectionLabel, ScriptHeading,
+   DateBlock, Monogram. Interactions are understated — 200ms ease, no scale. */
+
+/* ---------- Button ---------- */
+.ds-button {
+  font-family: var(--font-label);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  border: 1px solid var(--color-gold);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.ds-button--sm {
+  font-size: 11px;
+  padding: var(--space-2) var(--space-4);
+}
+
+.ds-button--md {
+  font-size: 13px;
+  padding: var(--space-3) 28px;
+}
+
+.ds-button--lg {
+  font-size: var(--text-label);
+  padding: var(--space-4) 40px;
+}
+
+.ds-button--block {
+  width: 100%;
+}
+
+.ds-button--primary {
+  background: var(--color-gold);
+  color: var(--color-ivory);
+}
+
+.ds-button--primary:hover:not(:disabled) {
+  background: var(--color-gold-deep);
+  border-color: var(--color-gold-deep);
+}
+
+.ds-button--secondary {
+  color: var(--color-gold-deep);
+}
+
+.ds-button--secondary:hover:not(:disabled) {
+  background: var(--color-gold);
+  color: var(--color-ivory);
+}
+
+.ds-button--ghost {
+  color: var(--text-primary);
+  border-color: transparent;
+}
+
+.ds-button--ghost:hover:not(:disabled) {
+  color: var(--color-gold-deep);
+}
+
+.ds-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* ---------- Input ---------- */
+.ds-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.ds-field__label {
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.ds-field__control {
+  font-family: var(--font-serif);
+  font-size: var(--text-body);
+  color: var(--text-primary);
+  padding: var(--space-3) var(--space-1);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-subtle);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.ds-field__control::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+.ds-field__control:focus {
+  border-bottom-color: var(--color-gold);
+}
+
+.ds-field__control:focus-visible {
+  outline: none;
+}
+
+.ds-field__hint {
+  font-family: var(--font-serif);
+  font-size: var(--text-small);
+  color: var(--text-secondary);
+}
+
+.ds-field__hint--error {
+  color: var(--color-gold-deep);
+}
+
+/* ---------- Card ---------- */
+.ds-card {
+  background: var(--surface-card);
+  border: var(--border-hairline);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+/* ---------- SectionLabel: the system's signature divider ---------- */
+.ds-section-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.ds-section-label::before,
+.ds-section-label::after {
+  content: '';
+  width: 56px;
+  height: 1px;
+  background: var(--color-gold);
+}
+
+/* ---------- ScriptHeading ---------- */
+.ds-script {
+  display: block;
+  font-family: var(--font-script);
+  font-weight: 400;
+  color: var(--color-gold);
+  line-height: var(--leading-tight);
+  /* A caixa de linha do Alex Brush reserva 9px vazios acima da tinta e 17px
+     abaixo (medido a 56px). Num bloco centralizado isso empurra o texto para
+     cima e ele parece descentralizado mesmo com as caixas alinhadas. O trim
+     corta os dois vazios; onde não houver suporte, cai no comportamento atual. */
+  text-box: trim-both cap alphabetic;
+}
+
+.ds-script--md {
+  font-size: var(--text-script-md);
+}
+
+.ds-script--lg {
+  font-size: var(--text-script-hero);
+}
+
+/* ---------- Monogram ---------- */
+.ds-monogram {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.ds-monogram--inverted {
+  color: var(--color-ivory);
+}
+
+.ds-monogram__letter {
+  font-family: var(--font-serif);
+  font-size: var(--ds-monogram-size);
+}
+
+.ds-monogram__amp {
+  font-family: var(--font-script);
+  font-size: calc(var(--ds-monogram-size) * 0.85);
+  color: var(--color-gold-light);
+}
+
+/* ---------- DateBlock ---------- */
+.ds-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-label);
+}
+
+.ds-date__month,
+.ds-date__year {
+  font-size: 13px;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.ds-date__row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.ds-date__rule {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-primary);
+  border-top: 1px solid var(--color-gold);
+  border-bottom: 1px solid var(--color-gold);
+  padding: var(--space-2) var(--space-3);
+}
+
+.ds-date__day {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  color: var(--color-gold-deep);
+}
+
+/* Variantes do campo: textarea e select precisam de caixa, não só do filete. */
+.ds-field__control--boxed {
+  border: var(--border-hairline);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  resize: vertical;
+}
+
+.ds-field__control--boxed:focus {
+  border-color: var(--color-gold);
+}
+
+.ds-field__control--select {
+  font-family: var(--font-serif);
+  cursor: pointer;
+}
+
+.ds-field__control:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* ---------- Toque ----------
+   Todo controle precisa de 44px de altura em tela de toque (mínimo do iOS).
+   As duas condições são necessárias: `pointer: coarse` pega o celular em
+   qualquer largura, e `max-width` pega o iPad com Magic Keyboard, que reporta
+   `pointer: fine` e ficaria de fora. */
+@media (pointer: coarse), (max-width: 900px) {
+  .ds-button {
+    min-height: 44px;
+  }
+
+  .ds-button--sm {
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-3);
+  }
+
+  .ds-field__control {
+    min-height: 44px;
+  }
+
+  /* 16px é o limiar abaixo do qual o Safari dá zoom ao focar o campo. */
+  .ds-field__control,
+  select.ds-field__control {
+    font-size: max(16px, var(--text-body));
+  }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "username": "renato",
+    "displayName": "Renato Peres",
+    "password": "troque-esta-senha",
+    "role": "admin"
+  },
+  {
+    "username": "marilia",
+    "displayName": "Marília",
+    "password": "troque-esta-senha",
+    "role": "admin"
+  },
+  {
+    "username": "ana.silva",
+    "displayName": "Ana Silva",
+    "password": "troque-esta-senha",
+    "role": "guest"
+  },
+  {
+    "username": "joao.lima",
+    "displayName": "João Lima",
+    "password": "troque-esta-senha",
+    "role": "guest"
+  }
+]

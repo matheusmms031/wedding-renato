@@ -1,0 +1,10 @@
+import * as controller from '../controllers/gifts.controller.js'
+import { claimGiftSchema, listGiftsSchema, unclaimGiftSchema } from '../schemas/gifts.schema.js'
+
+export default async function giftsRoutes(fastify) {
+  fastify.addHook('onRequest', fastify.authenticate)
+
+  fastify.get('/', { schema: listGiftsSchema }, controller.index)
+  fastify.post('/:giftId/claim', { schema: claimGiftSchema }, controller.claim)
+  fastify.delete('/:giftId/claim', { schema: unclaimGiftSchema }, controller.unclaim)
+}

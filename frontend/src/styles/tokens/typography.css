@@ -1,0 +1,17 @@
+:root{
+--font-script:'Alex Brush',cursive;
+--font-serif:'Cormorant Garamond',serif;
+--font-label:'Oswald',sans-serif;
+--text-script-hero:clamp(56px,9vw,128px);
+--text-script-md:clamp(32px,5vw,56px);
+--text-display:clamp(28px,4vw,44px);
+--text-heading:clamp(20px,2.4vw,28px);
+--text-body-lg:20px;
+--text-body:17px;
+--text-small:14px;
+--text-label:14px;
+--tracking-label:0.18em;
+--tracking-caps:0.12em;
+--leading-tight:1.15;
+--leading-normal:1.55;
+}

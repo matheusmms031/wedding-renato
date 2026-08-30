@@ -1,0 +1,73 @@
+name: wedding-renato-prod
+
+services:
+  db:
+    image: postgres:17-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    # Sem portas publicadas: acessível só na rede do compose.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+  backend:
+    build:
+      context: ./backend
+      target: prod
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      LOG_LEVEL: info
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      SESSION_COOKIE_NAME: rm_session
+      SESSION_TTL_DAYS: 30
+      # ATENÇÃO: o alvo hoje é HTTP local. Um cookie marcado Secure é DESCARTADO
+      # em silêncio sobre HTTP puro — ninguém consegue logar e não aparece erro
+      # em log nenhum. Ao colocar TLS na frente, vire esta flag para "true".
+      COOKIE_SECURE: "false"
+      BCRYPT_ROUNDS: "12"
+      CORS_ORIGIN: ${PUBLIC_ORIGIN:-http://localhost}
+      TRUST_PROXY: "true"
+      # Seed roda uma vez, à mão:
+      #   docker compose -f docker-compose.prod.yml run --rm backend npx sequelize-cli db:seed:all
+      RUN_SEEDS: "false"
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - node -e "fetch('http://127.0.0.1:3001/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  frontend:
+    build:
+      context: ./frontend
+      target: prod
+    restart: always
+    depends_on:
+      backend:
+        # O nginx resolve "backend" uma única vez, no boot, e se recusa a subir
+        # com "host not found in upstream" se o container ainda não estiver de pé.
+        condition: service_healthy
+    ports:
+      - "${HTTP_PORT:-80}:80"
+
+volumes:
+  db-data:

@@ -1,0 +1,34 @@
+[
+  {
+    "slug": "lua-de-mel",
+    "name": "Cota Lua de Mel",
+    "description": "Contribua com a viagem dos noivos.",
+    "priceCents": 20000,
+    "quantity": 10,
+    "sortOrder": 1
+  },
+  {
+    "slug": "jantar-romantico",
+    "name": "Jantar Romântico",
+    "description": "Uma noite especial para o casal.",
+    "priceCents": 15000,
+    "quantity": 5,
+    "sortOrder": 2
+  },
+  {
+    "slug": "eletrodomestico",
+    "name": "Eletrodoméstico",
+    "description": "Ajude a equipar a nova casa.",
+    "priceCents": 35000,
+    "quantity": 1,
+    "sortOrder": 3
+  },
+  {
+    "slug": "decoracao-da-casa",
+    "name": "Decoração da Casa",
+    "description": "Um toque especial para o novo lar.",
+    "priceCents": 12000,
+    "quantity": 1,
+    "sortOrder": 4
+  }
+]

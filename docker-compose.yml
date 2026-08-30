@@ -1,0 +1,82 @@
+name: wedding-renato
+
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "${DB_PORT_HOST:-5433}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+  backend:
+    build:
+      context: ./backend
+      target: dev
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+      LOG_LEVEL: debug
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_NAME_TEST: ${DB_NAME_TEST}
+      SESSION_COOKIE_NAME: rm_session
+      SESSION_TTL_DAYS: 30
+      # HTTP puro em dev: um cookie Secure seria descartado em silêncio.
+      COOKIE_SECURE: "false"
+      BCRYPT_ROUNDS: "10"
+      CORS_ORIGIN: http://localhost:5173
+      TRUST_PROXY: "true"
+      RUN_SEEDS: "true"
+    volumes:
+      - ./backend:/app
+      # Volume anônimo: sem ele o bind mount encobre o node_modules da imagem, e
+      # a árvore do host foi instalada para glibc enquanto a imagem é musl.
+      - /app/node_modules
+    ports:
+      - "${API_PORT_HOST:-3001}:3001"
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - node -e "fetch('http://127.0.0.1:3001/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  frontend:
+    build:
+      context: ./frontend
+      target: dev
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_started
+    environment:
+      API_PROXY_TARGET: http://backend:3001
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "${WEB_PORT_HOST:-5173}:5173"
+
+volumes:
+  db-data:

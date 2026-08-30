@@ -1,0 +1,196 @@
+/* ---------- SiteNavBar ---------- */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  padding: var(--space-5) var(--space-7);
+  /* Recuo do notch em iPhone na horizontal (paisagem). */
+  padding-left: max(var(--space-7), env(safe-area-inset-left));
+  padding-right: max(var(--space-7), env(safe-area-inset-right));
+  background: var(--surface-page);
+  border-bottom: var(--border-hairline);
+}
+
+.site-nav__bar {
+  display: flex;
+  align-items: center;
+}
+
+/* O botão só existe no layout compacto. */
+.site-nav__toggle {
+  display: none;
+}
+
+/* display:contents dissolve o wrapper: no desktop os links e a conta viram
+   itens diretos da barra, sem markup duplicado para os dois layouts. */
+.site-nav__collapse {
+  display: contents;
+}
+
+.site-nav__links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-6);
+}
+
+.site-nav__link {
+  /* flex + min-height aumentam a área de toque sem mudar a tipografia: num
+     iPad, 19px de altura é alvo pequeno demais. */
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.site-nav__link:hover,
+.site-nav__link[aria-current='true'] {
+  color: var(--color-gold-deep);
+}
+
+.site-nav__account {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.site-nav__guest {
+  font-family: var(--font-label);
+  font-size: 11px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* ---------- Layout compacto: telefone e iPad em retrato ----------
+   Acima de 900px os seis links cabem numa linha. Abaixo disso a barra
+   quebrava em três fileiras e passava a ocupar 140px fixos de uma tela de
+   667px — daí o menu que abre. */
+@media (max-width: 899px) {
+  .site-nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0;
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  .site-nav__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .site-nav__toggle {
+    display: block;
+    min-height: 44px;
+    padding: 0 var(--space-3);
+    margin-right: calc(var(--space-3) * -1);
+    font-family: var(--font-label);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-gold-deep);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+
+  .site-nav__collapse {
+    display: none;
+  }
+
+  .site-nav__collapse[data-open='true'] {
+    display: flex;
+    flex-direction: column;
+    border-top: var(--border-hairline);
+    /* O menu pode passar da tela em paisagem; rola sozinho em vez de vazar. */
+    max-height: calc(100vh - 72px);
+    max-height: calc(100dvh - 72px);
+    overflow-y: auto;
+  }
+
+  .site-nav__links {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: var(--space-2) var(--space-5);
+  }
+
+  .site-nav__link {
+    display: flex;
+    align-items: center;
+    /* 48px: acima do mínimo de 44px do iOS, com folga para o dedo. */
+    min-height: 48px;
+    font-size: 13px;
+    border-bottom: var(--border-hairline);
+  }
+
+  .site-nav__links > :last-child {
+    border-bottom: none;
+  }
+
+  .site-nav__account {
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-5);
+    padding-bottom: max(var(--space-4), env(safe-area-inset-bottom));
+    border-top: var(--border-hairline);
+    background: var(--surface-alt);
+  }
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  padding: var(--space-7);
+  padding-bottom: max(var(--space-7), env(safe-area-inset-bottom));
+  text-align: center;
+  background: var(--surface-deep);
+  color: var(--text-on-deep);
+}
+
+.site-footer__lockup {
+  font-family: var(--font-label);
+  font-size: 12px;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.site-footer__verse {
+  margin-top: var(--space-3);
+  font-family: var(--font-serif);
+  font-size: var(--text-small);
+  font-style: italic;
+  color: var(--color-green-mist);
+}
+
+/* ---------- PageLoader ---------- */
+.page-loader {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  background: var(--surface-page);
+}
+
+.page-loader__label {
+  font-family: var(--font-label);
+  font-size: 11px;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
