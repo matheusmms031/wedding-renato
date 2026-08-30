@@ -1,0 +1,262 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": [
+              "components/brand/**",
+              "components/core/**",
+              "components/navigation/**",
+              "ui_kits/invitation-suite/**",
+              "ui_kits/wedding-website/**"
+            ],
+            "message": "Import design-system components from 'index.js', not component internals."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Alex Brush|Cormorant Garamond|Oswald))/i]",
+        "message": "Font not provided by the design system. Available: Alex Brush, Cormorant Garamond, Oswald."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|variant|size|onClick|type|disabled|key|ref|className|style|children)$/]",
+        "message": "<Button> doesn't accept that prop. Declared props: children, variant, size, onClick, type, disabled."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='variant'] > Literal[value!=/^(?:primary|secondary|ghost)$/]",
+        "message": "<Button> variant must be one of 'primary' | 'secondary' | 'ghost'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='size'] > Literal[value!=/^(?:sm|md|lg)$/]",
+        "message": "<Button> size must be one of 'sm' | 'md' | 'lg'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='type'] > Literal[value!=/^(?:button|submit)$/]",
+        "message": "<Button> type must be one of 'button' | 'submit'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Card'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|padding|key|ref|className|style|children)$/]",
+        "message": "<Card> doesn't accept that prop. Declared props: children, padding."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='DateBlock'] > JSXAttribute > JSXIdentifier[name!=/^(?:month|day|weekday|time|year|key|ref|className|style|children)$/]",
+        "message": "<DateBlock> doesn't accept that prop. Declared props: month, day, weekday, time, year."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Input'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|placeholder|value|onChange|type|required|key|ref|className|style|children)$/]",
+        "message": "<Input> doesn't accept that prop. Declared props: label, placeholder, value, onChange, type, required."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Monogram'] > JSXAttribute > JSXIdentifier[name!=/^(?:size|inverted|key|ref|className|style|children)$/]",
+        "message": "<Monogram> doesn't accept that prop. Declared props: size, inverted."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='NavBar'] > JSXAttribute > JSXIdentifier[name!=/^(?:links|active|key|ref|className|style|children)$/]",
+        "message": "<NavBar> doesn't accept that prop. Declared props: links, active."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ScriptHeading'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|size|color|key|ref|className|style|children)$/]",
+        "message": "<ScriptHeading> doesn't accept that prop. Declared props: children, size, color."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ScriptHeading'] > JSXAttribute[name.name='size'] > Literal[value!=/^(?:md|lg)$/]",
+        "message": "<ScriptHeading> size must be one of 'md' | 'lg'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SectionLabel'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|key|ref|className|style|children)$/]",
+        "message": "<SectionLabel> doesn't accept that prop. Declared props: children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Textarea'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|placeholder|value|onChange|rows|key|ref|className|style|children)$/]",
+        "message": "<Textarea> doesn't accept that prop. Declared props: label, placeholder, value, onChange, rows."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {
+      "Button": {
+        "replaces": []
+      },
+      "Card": {
+        "replaces": []
+      },
+      "DateBlock": {
+        "replaces": []
+      },
+      "Input": {
+        "replaces": []
+      },
+      "Monogram": {
+        "replaces": []
+      },
+      "NavBar": {
+        "replaces": []
+      },
+      "ScriptHeading": {
+        "replaces": []
+      },
+      "SectionLabel": {
+        "replaces": []
+      },
+      "Textarea": {
+        "replaces": []
+      }
+    },
+    "tokens": [
+      "--accent-primary",
+      "--accent-primary-hover",
+      "--border-hairline",
+      "--border-subtle",
+      "--brand-green",
+      "--brand-green-soft",
+      "--color-border",
+      "--color-charcoal",
+      "--color-charcoal-soft",
+      "--color-gold",
+      "--color-gold-deep",
+      "--color-gold-light",
+      "--color-green-deep",
+      "--color-green-mist",
+      "--color-green-sage",
+      "--color-ivory",
+      "--color-ivory-deep",
+      "--color-white",
+      "--font-label",
+      "--font-script",
+      "--font-serif",
+      "--leading-normal",
+      "--leading-tight",
+      "--link-color",
+      "--link-color-hover",
+      "--radius-md",
+      "--radius-pill",
+      "--radius-sm",
+      "--shadow-card",
+      "--space-1",
+      "--space-10",
+      "--space-2",
+      "--space-3",
+      "--space-4",
+      "--space-5",
+      "--space-6",
+      "--space-7",
+      "--space-8",
+      "--space-9",
+      "--surface-alt",
+      "--surface-card",
+      "--surface-deep",
+      "--surface-page",
+      "--text-body",
+      "--text-body-lg",
+      "--text-display",
+      "--text-gold",
+      "--text-heading",
+      "--text-label",
+      "--text-on-deep",
+      "--text-primary",
+      "--text-script-hero",
+      "--text-script-md",
+      "--text-secondary",
+      "--text-small",
+      "--tracking-caps",
+      "--tracking-label"
+    ],
+    "tokenKinds": {
+      "--color-ivory": "color",
+      "--color-ivory-deep": "color",
+      "--color-white": "color",
+      "--color-charcoal": "color",
+      "--color-charcoal-soft": "color",
+      "--color-green-deep": "color",
+      "--color-green-sage": "color",
+      "--color-green-mist": "color",
+      "--color-gold": "color",
+      "--color-gold-deep": "color",
+      "--color-gold-light": "color",
+      "--color-border": "color",
+      "--surface-page": "color",
+      "--surface-alt": "color",
+      "--surface-card": "color",
+      "--surface-deep": "color",
+      "--text-primary": "font",
+      "--text-secondary": "font",
+      "--text-on-deep": "font",
+      "--text-gold": "font",
+      "--accent-primary": "color",
+      "--accent-primary-hover": "color",
+      "--brand-green": "color",
+      "--brand-green-soft": "color",
+      "--border-subtle": "color",
+      "--link-color": "color",
+      "--link-color-hover": "color",
+      "--font-script": "font",
+      "--font-serif": "font",
+      "--font-label": "font",
+      "--text-script-hero": "font",
+      "--text-script-md": "font",
+      "--text-display": "font",
+      "--text-heading": "font",
+      "--text-body-lg": "font",
+      "--text-body": "font",
+      "--text-small": "font",
+      "--text-label": "font",
+      "--tracking-label": "font",
+      "--tracking-caps": "font",
+      "--leading-tight": "font",
+      "--leading-normal": "font",
+      "--space-1": "spacing",
+      "--space-2": "spacing",
+      "--space-3": "spacing",
+      "--space-4": "spacing",
+      "--space-5": "spacing",
+      "--space-6": "spacing",
+      "--space-7": "spacing",
+      "--space-8": "spacing",
+      "--space-9": "spacing",
+      "--space-10": "spacing",
+      "--radius-sm": "radius",
+      "--radius-md": "radius",
+      "--radius-pill": "radius",
+      "--border-hairline": "color",
+      "--shadow-card": "shadow"
+    },
+    "fontFamilies": [
+      "Alex Brush",
+      "Cormorant Garamond",
+      "Oswald"
+    ]
+  }
+}
