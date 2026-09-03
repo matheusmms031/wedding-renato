@@ -31,3 +31,6 @@ credenciais-convidados.csv
 
 # Local Netlify folder
 .netlify
+
+# Lock de arquivos abertos no LibreOffice
+.~lock.*#
