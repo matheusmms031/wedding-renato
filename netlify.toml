@@ -1,0 +1,61 @@
+# Deploy do site no Netlify.
+#
+# O Netlify serve APENAS o front (o `dist/` do Vite). O backend Fastify e o
+# Postgres continuam fora daqui — o `/api/*` abaixo é um proxy para onde eles
+# estiverem hospedados. Sem esse backend de pé, o site abre mas ninguém loga.
+
+[build]
+  base = "frontend"
+  command = "npm run build"
+  # Cuidado: `publish` é relativo à RAIZ do repositório, não ao `base`. Com
+  # "dist" aqui o Netlify procura <raiz>/dist e falha com "deploy directory has
+  # not been found", mesmo o build tendo passado.
+  publish = "frontend/dist"
+
+[build.environment]
+  # Vite 8 exige Node 20+.
+  NODE_VERSION = "22"
+
+# ---------------------------------------------------------------------------
+# Proxy da API. Precisa vir ANTES do fallback da SPA: o Netlify aplica a
+# primeira regra que casar, e "/*" casaria com /api/... também.
+#
+# status = 200 é proxy de verdade (o Netlify busca e devolve), não redirect 30x.
+# É isso que mantém front e API na MESMA origem para o navegador, que por sua
+# vez é o que faz o cookie httpOnly de sessão funcionar sem CORS e sem
+# SameSite=None. Um redirect 301/302 aqui quebraria o login.
+# ---------------------------------------------------------------------------
+[[redirects]]
+  from = "/api/*"
+  to = "https://wedding-renato-api.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+# Fallback de histórico da SPA: /login e /admin são rotas do React Router e não
+# existem como arquivo no disco.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# O shell nunca pode ser cacheado, senão o convidado roda o JavaScript do mês
+# passado contra a API de hoje.
+# Duas regras porque o Netlify casa pelo caminho PEDIDO, não pelo arquivo
+# servido: quem abre "/" não casa com "/index.html" e cairia no padrão do
+# Netlify (max-age=0, must-revalidate).
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-store"
+
+# Os assets têm hash no nome: são imutáveis. O padrão do Netlify é
+# must-revalidate, que joga fora esse ganho.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

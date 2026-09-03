@@ -6,10 +6,17 @@ import defineRsvp from './models/rsvp.js'
 import defineSession from './models/session.js'
 import defineUser from './models/user.js'
 
+// Objeto vazio quando DB_SSL=false: o driver então nem tenta negociar TLS,
+// que é o que o Postgres do docker compose espera.
+export const dialectOptions = env.DB_SSL
+  ? { ssl: { require: true, rejectUnauthorized: env.DB_SSL_REJECT_UNAUTHORIZED } }
+  : {}
+
 export const sequelize = new Sequelize(env.DB_NAME, env.DB_USER, env.DB_PASSWORD, {
   host: env.DB_HOST,
   port: env.DB_PORT,
   dialect: 'postgres',
+  dialectOptions,
   logging: env.NODE_ENV === 'development' ? (sql) => console.debug(sql) : false,
   define: { underscored: true, timestamps: true },
   pool: { max: 10, min: 0, idle: 10_000, acquire: 30_000 },

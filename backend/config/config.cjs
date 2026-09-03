@@ -5,8 +5,15 @@
 // variáveis, dois consumidores, nenhum import cruzando ESM e CJS.
 require('dotenv').config()
 
+// Duplicado de src/db/index.js de propósito: este arquivo é CommonJS e o
+// runtime é ESM — importar um do outro obrigaria a converter um dos dois.
+const ssl = process.env.DB_SSL === 'true' || process.env.DB_SSL === '1'
+
 const base = {
   dialect: 'postgres',
+  dialectOptions: ssl
+    ? { ssl: { require: true, rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED !== 'false' } }
+    : {},
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,

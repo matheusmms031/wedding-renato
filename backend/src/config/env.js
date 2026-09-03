@@ -49,6 +49,15 @@ export const env = Object.freeze({
   DB_PASSWORD: required('DB_PASSWORD'),
   DB_NAME: isTest ? (process.env.DB_NAME_TEST ?? 'wedding_test') : required('DB_NAME'),
 
+  // Postgres gerenciado (Supabase, Neon, RDS) recusa conexão sem TLS; o
+  // Postgres do compose, que não tem TLS, recusa se você exigir. Daí a flag.
+  DB_SSL: bool('DB_SSL', false),
+  // O Supabase assina o certificado com uma CA própria, que não está no store
+  // do Node — sem isto o erro é SELF_SIGNED_CERT_IN_CHAIN. Desligar a
+  // verificação abre espaço para MITM entre a API e o banco; o certo é apontar
+  // NODE_EXTRA_CA_CERTS para a CA do provedor e manter isto em true.
+  DB_SSL_REJECT_UNAUTHORIZED: bool('DB_SSL_REJECT_UNAUTHORIZED', true),
+
   SESSION_COOKIE_NAME: process.env.SESSION_COOKIE_NAME ?? 'rm_session',
   SESSION_TTL_DAYS: int('SESSION_TTL_DAYS', 30),
   COOKIE_SECURE: bool('COOKIE_SECURE', false),

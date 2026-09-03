@@ -16,7 +16,8 @@
     "db:migrate:status": "sequelize-cli db:migrate:status",
     "db:migrate:undo": "sequelize-cli db:migrate:undo",
     "db:seed": "sequelize-cli db:seed:all",
-    "db:reset": "sequelize-cli db:seed:undo:all || true && sequelize-cli db:migrate:undo:all && sequelize-cli db:migrate && sequelize-cli db:seed:all"
+    "db:reset": "sequelize-cli db:seed:undo:all || true && sequelize-cli db:migrate:undo:all && sequelize-cli db:migrate && sequelize-cli db:seed:all",
+    "db:guests": "node scripts/sync-guests.mjs"
   },
   "dependencies": {
     "@fastify/cookie": "^11.1.2",

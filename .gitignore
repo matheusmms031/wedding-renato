@@ -1,0 +1,33 @@
+# Dependências
+node_modules/
+
+# Build
+dist/
+dist-ssr/
+coverage/
+
+# Ambiente — nunca versionar credenciais
+.env
+.env.*
+!.env.example
+
+# Lista real de convidados (nomes e senhas)
+backend/src/seeds/guests.json
+
+# Logs
+*.log
+npm-debug.log*
+logs/
+
+# Editores / SO
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.swp
+
+# Credenciais em texto puro para envio aos convidados
+credenciais-convidados.csv
+
+# Local Netlify folder
+.netlify

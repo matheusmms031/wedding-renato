@@ -1,0 +1,72 @@
+# Blueprint do backend no Render (Fastify + Postgres do Supabase).
+#
+# O front NÃO está aqui: ele é buildado e servido pelo Netlify, que faz proxy de
+# /api/* para a URL deste serviço (veja netlify.toml).
+#
+# Aplicar: no Render, New > Blueprint, apontando para este repositório. As
+# variáveis com `sync: false` não ficam versionadas — o Render pergunta o valor
+# na hora de aplicar.
+
+services:
+  - type: web
+    name: wedding-renato-api
+    runtime: docker
+    # O Dockerfile tem vários estágios e `prod` é o último, então o build sem
+    # --target já para no lugar certo. O ENTRYPOINT roda as migrations antes de
+    # subir o Node, ou seja, todo deploy migra o banco sozinho.
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    region: oregon
+    healthCheckPath: /health
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: info
+
+      # --- Supabase ---
+      # Pegue em Project Settings > Database > Connection string.
+      # Use o "Session pooler": ele responde em IPv4 e aceita as migrations.
+      # A conexão direta (db.<ref>.supabase.co) é só IPv6 e o Render não alcança.
+      - key: DB_HOST # aws-0-<região>.pooler.supabase.com
+        sync: false
+      - key: DB_PORT
+        value: "5432"
+      - key: DB_USER # postgres.<project-ref>
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        value: postgres
+      - key: DB_SSL
+        value: "true"
+      # O Supabase assina com CA própria: com true o erro é
+      # SELF_SIGNED_CERT_IN_CHAIN. Ver comentário em backend/src/config/env.js.
+      - key: DB_SSL_REJECT_UNAUTHORIZED
+        value: "false"
+
+      # --- Sessão ---
+      - key: SESSION_COOKIE_NAME
+        value: rm_session
+      - key: SESSION_TTL_DAYS
+        value: "30"
+      # O Netlify serve em HTTPS. Sem isto o cookie viaja sem Secure.
+      - key: COOKIE_SECURE
+        value: "true"
+      # O Render fica atrás de proxy: sem isto o rate limit do login enxerga um
+      # IP só para todo mundo e bloqueia os convidados uns aos outros.
+      - key: TRUST_PROXY
+        value: "true"
+      - key: BCRYPT_ROUNDS
+        value: "12"
+
+      # Com o proxy do Netlify o navegador nunca faz requisição cross-origin, então
+      # isto só protege quem chamar a API direto no domínio do Render.
+      - key: CORS_ORIGIN # https://<seu-site>.netlify.app
+        sync: false
+
+      # Os convidados entram por `npm run db:guests`, não pelo seeder.
+      - key: RUN_SEEDS
+        value: "false"
