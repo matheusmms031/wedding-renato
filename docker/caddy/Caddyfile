@@ -1,0 +1,14 @@
+# O Caddy termina TLS e repassa para o nginx que já serve o front e faz o
+# proxy de /api. Ele pede e renova o certificado Let's Encrypt sozinho — não
+# há certbot, cron nem renovação manual neste setup.
+#
+# Sem `encode` de propósito: o nginx lá dentro já faz gzip, comprimir de novo
+# só gasta CPU.
+
+{
+	email {$TLS_EMAIL}
+}
+
+{$DOMAIN} {
+	reverse_proxy frontend:80
+}

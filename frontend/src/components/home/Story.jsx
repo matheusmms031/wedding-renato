@@ -9,15 +9,13 @@ export function Story() {
         <p className="story__lead">{historia.chamada}</p>
       </div>
 
-      <ol className="timeline">
-        {historia.momentos.map((momento) => (
-          <li className="timeline__item" key={momento.titulo}>
-            {momento.quando && <span className="timeline__when">{momento.quando}</span>}
-            <h3 className="timeline__title">{momento.titulo}</h3>
-            <p className="timeline__text">{momento.texto}</p>
-          </li>
+      <div className="story__prose">
+        {historia.paragrafos.map((paragrafo) => (
+          <p key={paragrafo.slice(0, 40)}>{paragrafo}</p>
         ))}
-      </ol>
+      </div>
+
+      {historia.fecho && <p className="story__fecho">{historia.fecho}</p>}
     </section>
   )
 }

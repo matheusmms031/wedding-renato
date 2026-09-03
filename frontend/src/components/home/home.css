@@ -165,72 +165,37 @@
   color: var(--text-secondary);
 }
 
-/* Linha do tempo sobre o filete dourado — o mesmo motivo do SectionLabel,
-   na vertical. Sem ícone e sem bolinha: o sistema não tem iconografia. */
-.timeline {
-  list-style: none;
-  margin: 0;
-  padding: 0 0 0 var(--space-6);
-  max-width: 620px;
+/* Narrativa corrida. Medida curta (58ch) porque é serifada e longa: linha
+   larga demais faz o olho perder a volta. */
+.story__prose {
+  max-width: 58ch;
   width: 100%;
-  border-left: 1px solid var(--color-gold-light);
   display: flex;
   flex-direction: column;
-  gap: var(--space-7);
+  gap: var(--space-5);
 }
 
-.timeline__item {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-/* Traço dourado ligando o item ao filete, no lugar de um marcador ilustrado. */
-.timeline__item::before {
-  content: '';
-  position: absolute;
-  left: calc(var(--space-6) * -1);
-  top: 0.7em;
-  width: var(--space-5);
-  height: 1px;
-  background: var(--color-gold);
-}
-
-.timeline__when {
-  font-family: var(--font-label);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--text-secondary);
-}
-
-.timeline__title {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: var(--text-heading);
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.timeline__text {
+.story__prose p {
   margin: 0;
   font-family: var(--font-serif);
   font-size: var(--text-body);
-  line-height: var(--leading-normal);
+  line-height: 1.8;
   color: var(--text-secondary);
 }
 
-@media (max-width: 600px) {
-  .timeline {
-    padding-left: var(--space-5);
-  }
-
-  .timeline__item::before {
-    left: calc(var(--space-5) * -1);
-    width: var(--space-4);
-  }
+/* Fecho isolado sobre o filete dourado — o mesmo motivo do SectionLabel, que
+   é o divisor-assinatura do sistema. Sem ícone: não há iconografia aqui. */
+.story__fecho {
+  max-width: 46ch;
+  margin: 0;
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-gold-light);
+  text-align: center;
+  font-family: var(--font-serif);
+  font-size: var(--text-body-lg);
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--text-primary);
 }
 
 /* ---------- Quem Somos ---------- */

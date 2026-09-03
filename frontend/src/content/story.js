@@ -1,14 +1,15 @@
 /* =========================================================================
- *  TEXTO DE RASCUNHO — Renato e Marília precisam reescrever este arquivo.
+ *  Textos do site. Este é o único arquivo que precisa ser editado para
+ *  trocá-los.
  *
- *  A prosa abaixo foi escrita para dar forma e ritmo às seções da home, mas
- *  NÃO é a história de vocês: ninguém aqui sabe onde vocês se conheceram, o
- *  que fazem da vida ou o que sonham. Tudo que é fato — profissão, datas,
- *  lugares — está marcado com «...» e aparece em branco na página até ser
- *  preenchido, de propósito: é melhor um espaço vazio do que uma informação
- *  inventada no site do próprio casamento.
+ *  `historia` é o texto real, escrito pelos noivos.
  *
- *  Este é o único arquivo que precisa ser editado para trocar os textos.
+ *  AINDA É RASCUNHO: `noivos` (os dois parágrafos de apresentação) e
+ *  `proposito.planos` continuam com prosa inventada, escrita só para dar
+ *  forma às seções. Tudo que é fato — profissão, datas, lugares — está
+ *  marcado com «...» e aparece em branco na página até ser preenchido, de
+ *  propósito: é melhor um espaço vazio do que uma informação inventada no
+ *  site do próprio casamento.
  * ========================================================================= */
 
 /** Vazio não é renderizado — serve para marcar o que só vocês sabem. */
@@ -37,43 +38,37 @@ export const fotoDoCasal = {
 }
 
 export const historia = {
+  // Abertura: sai em itálico, destacada do corpo.
   chamada:
-    'Há encontros que parecem acaso e, vistos de longe, revelam-se caminho. ' +
-    'O nosso começou muito antes de nós dois percebermos.',
+    'Se alguém tivesse contado a Renato e Marília que uma amizade na igreja, ' +
+    'em Dublin, passaria por uma coincidência numa lanchonete e acabaria ' +
+    'chegando ao altar, os dois provavelmente dariam muita risada.',
 
-  momentos: [
-    {
-      // `quando` é opcional: preencha com o ano ou a data, ou deixe vazio.
-      quando: PREENCHER,
-      titulo: 'O encontro',
-      texto:
-        'Foi num dia comum, desses que não avisam que vão mudar tudo. ' +
-        'Conversamos até tarde e, no dia seguinte, já não havia como voltar ' +
-        'a ser quem éramos antes.',
-    },
-    {
-      quando: PREENCHER,
-      titulo: 'O namoro',
-      texto:
-        'Aprendemos a construir juntos: a dividir os dias comuns, a rir das ' +
-        'mesmas bobagens, a orar um pelo outro. Foi ali que entendemos que ' +
-        'amar é também escolher, todas as manhãs.',
-    },
-    {
-      quando: PREENCHER,
-      titulo: 'O pedido',
-      texto:
-        'Um joelho no chão, um anel e a certeza tranquila de quem já sabia a ' +
-        'resposta havia muito tempo.',
-    },
-    {
-      quando: '20 de dezembro de 2026',
-      titulo: 'O nosso sim',
-      texto:
-        'Diante de Deus e de quem amamos, começamos o capítulo que sonhamos ' +
-        'escrever a vida inteira.',
-    },
+  paragrafos: [
+    'Eles se conheceram na igreja e começaram como amigos. Depois de alguns ' +
+      'rolês com amigos, os dois acabaram se encontrando por acaso numa ' +
+      'lanchonete — e foi ali que Deus resolveu colocar um “assunto” na mesa. ' +
+      'Uma conversa que começou como qualquer outra e terminou deixando os ' +
+      'dois com bastante coisa para pensar.',
+    'Depois disso, vieram os olhares diferentes, algumas desconfianças e ' +
+      'aquelas conversas em que ninguém fala exatamente o que está pensando, ' +
+      'mas os dois sabem que tem alguma coisa acontecendo. Até que, com Deus ' +
+      'dando o start, veio a decisão: “Então… bora tentar.” E foi aí que ' +
+      'começou a história de verdade.',
+    'E tentaram mesmo. Entre estudos e trabalho, faziam de tudo para se ' +
+      'encontrar, muitas vezes de madrugada. Renato atravessava Dublin de ' +
+      'bicicleta para levar Marília para casa e, quando não tinha bicicleta, ' +
+      'ia na coragem mesmo — porque aparentemente o amor também fazia hora extra.',
+    'Entre cafés, madrugadas, pedaladas e muita oração, a amizade virou amor.',
+    'Hoje, celebramos o casamento como Deus planejou: não apenas uma festa, ' +
+      'mas uma aliança para a vida toda, na qual marido e mulher caminham ' +
+      'juntos, refletem o amor de Cristo e glorificam a Deus.',
   ],
+
+  // Fecho: isolado sobre um filete dourado, o divisor-assinatura do sistema.
+  fecho:
+    'E pensar que tudo começou com dois amigos, uma lanchonete e Deus dando ' +
+    'o start na história.',
 }
 
 export const noivos = [
