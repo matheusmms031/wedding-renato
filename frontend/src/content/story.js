@@ -2,14 +2,14 @@
  *  Textos do site. Este é o único arquivo que precisa ser editado para
  *  trocá-los.
  *
- *  `historia` é o texto real, escrito pelos noivos.
+ *  `historia` foi escrita pelos noivos, assim como os dois versículos em
+ *  `proposito`, que vieram do convite original.
  *
- *  AINDA É RASCUNHO: `noivos` (os dois parágrafos de apresentação) e
- *  `proposito.planos` continuam com prosa inventada, escrita só para dar
- *  forma às seções. Tudo que é fato — profissão, datas, lugares — está
- *  marcado com «...» e aparece em branco na página até ser preenchido, de
- *  propósito: é melhor um espaço vazio do que uma informação inventada no
- *  site do próprio casamento.
+ *  O restante (`noivos[].texto`, `proposito.chamada`, `proposito.paragrafos`
+ *  e `proposito.planos`) é prosa de rascunho, escrita para dar forma e ritmo
+ *  às seções. Vale reler antes de mandar o convite. Tudo que é fato —
+ *  profissão, datas, lugares — está marcado com «...» e aparece em branco na
+ *  página até ser preenchido.
  * ========================================================================= */
 
 /** Vazio não é renderizado — serve para marcar o que só vocês sabem. */
@@ -38,34 +38,65 @@ export const fotoDoCasal = {
 }
 
 export const historia = {
-  // Abertura: sai em itálico, destacada do corpo.
+  // Abertura: fica acima do filete, em itálico, destacada dos marcos.
   chamada:
     'Se alguém tivesse contado a Renato e Marília que uma amizade na igreja, ' +
     'em Dublin, passaria por uma coincidência numa lanchonete e acabaria ' +
     'chegando ao altar, os dois provavelmente dariam muita risada.',
 
-  paragrafos: [
-    'Eles se conheceram na igreja e começaram como amigos. Depois de alguns ' +
-      'rolês com amigos, os dois acabaram se encontrando por acaso numa ' +
-      'lanchonete — e foi ali que Deus resolveu colocar um “assunto” na mesa. ' +
-      'Uma conversa que começou como qualquer outra e terminou deixando os ' +
-      'dois com bastante coisa para pensar.',
-    'Depois disso, vieram os olhares diferentes, algumas desconfianças e ' +
-      'aquelas conversas em que ninguém fala exatamente o que está pensando, ' +
-      'mas os dois sabem que tem alguma coisa acontecendo. Até que, com Deus ' +
-      'dando o start, veio a decisão: “Então… bora tentar.” E foi aí que ' +
-      'começou a história de verdade.',
-    'E tentaram mesmo. Entre estudos e trabalho, faziam de tudo para se ' +
-      'encontrar, muitas vezes de madrugada. Renato atravessava Dublin de ' +
-      'bicicleta para levar Marília para casa e, quando não tinha bicicleta, ' +
-      'ia na coragem mesmo — porque aparentemente o amor também fazia hora extra.',
-    'Entre cafés, madrugadas, pedaladas e muita oração, a amizade virou amor.',
-    'Hoje, celebramos o casamento como Deus planejou: não apenas uma festa, ' +
-      'mas uma aliança para a vida toda, na qual marido e mulher caminham ' +
-      'juntos, refletem o amor de Cristo e glorificam a Deus.',
+  /* Cada item é um marco pendurado no filete dourado.
+   *
+   * `titulo` e `quando` são opcionais e estão vazios de propósito: os títulos
+   * anteriores ("O encontro", "O namoro", "O pedido") eram invenção minha, não
+   * de vocês. Sem eles o marco mostra só o texto, e o filete continua ali.
+   * Para nomear um marco, é só escrever no `titulo` — a linha reaparece. */
+  momentos: [
+    {
+      quando: PREENCHER,
+      titulo: PREENCHER,
+      texto:
+        'Eles se conheceram na igreja e começaram como amigos. Depois de alguns ' +
+        'rolês com amigos, os dois acabaram se encontrando por acaso numa ' +
+        'lanchonete — e foi ali que Deus resolveu colocar um “assunto” na mesa. ' +
+        'Uma conversa que começou como qualquer outra e terminou deixando os ' +
+        'dois com bastante coisa para pensar.',
+    },
+    {
+      quando: PREENCHER,
+      titulo: PREENCHER,
+      texto:
+        'Depois disso, vieram os olhares diferentes, algumas desconfianças e ' +
+        'aquelas conversas em que ninguém fala exatamente o que está pensando, ' +
+        'mas os dois sabem que tem alguma coisa acontecendo. Até que, com Deus ' +
+        'dando o start, veio a decisão: “Então… bora tentar.” E foi aí que ' +
+        'começou a história de verdade.',
+    },
+    {
+      quando: PREENCHER,
+      titulo: PREENCHER,
+      texto:
+        'E tentaram mesmo. Entre estudos e trabalho, faziam de tudo para se ' +
+        'encontrar, muitas vezes de madrugada. Renato atravessava Dublin de ' +
+        'bicicleta para levar Marília para casa e, quando não tinha bicicleta, ' +
+        'ia na coragem mesmo — porque aparentemente o amor também fazia hora extra.',
+    },
+    {
+      quando: PREENCHER,
+      titulo: PREENCHER,
+      texto: 'Entre cafés, madrugadas, pedaladas e muita oração, a amizade virou amor.',
+    },
+    {
+      // A data é fato, não invenção: é a do convite.
+      quando: '20 de dezembro de 2026',
+      titulo: PREENCHER,
+      texto:
+        'Hoje, celebramos o casamento como Deus planejou: não apenas uma festa, ' +
+        'mas uma aliança para a vida toda, na qual marido e mulher caminham ' +
+        'juntos, refletem o amor de Cristo e glorificam a Deus.',
+    },
   ],
 
-  // Fecho: isolado sobre um filete dourado, o divisor-assinatura do sistema.
+  // Fecho: isolado sob o filete, encerrando a linha do tempo.
   fecho:
     'E pensar que tudo começou com dois amigos, uma lanchonete e Deus dando ' +
     'o start na história.',
