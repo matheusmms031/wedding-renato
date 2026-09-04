@@ -10,7 +10,7 @@ export async function buildTestApp(options = {}) {
 
 /** Zera tudo. O CASCADE leva sessões, RSVPs e escolhas junto. */
 export async function truncateAll(app) {
-  await app.db.query('TRUNCATE users, gifts RESTART IDENTITY CASCADE')
+  await app.db.query('TRUNCATE users, gifts, settings RESTART IDENTITY CASCADE')
 }
 
 export async function createUser(app, overrides = {}) {

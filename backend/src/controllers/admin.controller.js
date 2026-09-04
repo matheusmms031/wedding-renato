@@ -1,5 +1,6 @@
 import { toPublicGift, toPublicUser } from '../lib/serializers.js'
 import * as adminService from '../services/admin.service.js'
+import * as settingsService from '../services/settings.service.js'
 
 const iso = (value) => (value instanceof Date ? value.toISOString() : value)
 
@@ -98,4 +99,12 @@ export async function updateGift(request) {
 export async function deleteGift(request, reply) {
   await adminService.deleteGift(request.server.models, request.params.id)
   return reply.code(204).send()
+}
+
+export async function getSettings(request) {
+  return { settings: await settingsService.obterConfigPix(request.server.models) }
+}
+
+export async function updateSettings(request) {
+  return { settings: await settingsService.salvar(request.server.models, request.body) }
 }

@@ -165,3 +165,37 @@ export const deleteGiftSchema = {
   params: uuidParam('id'),
   response: { 204: { type: 'null' }, ...errors(401, 403, 404, 409) },
 }
+
+const settingsShape = {
+  type: 'object',
+  properties: {
+    pixKey: { type: 'string' },
+    pixReceiverName: { type: 'string' },
+    pixReceiverCity: { type: 'string' },
+  },
+}
+
+export const getSettingsSchema = {
+  response: {
+    200: { type: 'object', properties: { settings: settingsShape } },
+    ...errors(401, 403),
+  },
+}
+
+export const updateSettingsSchema = {
+  body: {
+    type: 'object',
+    required: ['pixKey', 'pixReceiverName', 'pixReceiverCity'],
+    properties: {
+      pixKey: { type: 'string', minLength: 1, maxLength: 77 },
+      // Limites do EMV, não capricho: passar disso gera um BR Code que o app
+      // do banco recusa.
+      pixReceiverName: { type: 'string', minLength: 1, maxLength: 25 },
+      pixReceiverCity: { type: 'string', minLength: 1, maxLength: 15 },
+    },
+  },
+  response: {
+    200: { type: 'object', properties: { settings: settingsShape } },
+    ...errors(400, 401, 403),
+  },
+}

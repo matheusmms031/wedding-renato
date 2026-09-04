@@ -4,6 +4,7 @@ import defineGiftClaim from './models/gift-claim.js'
 import defineGift from './models/gift.js'
 import defineRsvp from './models/rsvp.js'
 import defineSession from './models/session.js'
+import defineSetting from './models/setting.js'
 import defineUser from './models/user.js'
 
 // Objeto vazio quando DB_SSL=false: o driver então nem tenta negociar TLS,
@@ -27,6 +28,8 @@ const Session = defineSession(sequelize, DataTypes)
 const Rsvp = defineRsvp(sequelize, DataTypes)
 const Gift = defineGift(sequelize, DataTypes)
 const GiftClaim = defineGiftClaim(sequelize, DataTypes)
+// Chave-valor solto: não se associa a nada.
+const Setting = defineSetting(sequelize, DataTypes)
 
 User.hasMany(Session, { foreignKey: 'userId', as: 'sessions', onDelete: 'CASCADE' })
 Session.belongsTo(User, { foreignKey: 'userId', as: 'user' })
@@ -41,4 +44,4 @@ Gift.hasMany(GiftClaim, { foreignKey: 'giftId', as: 'claims', onDelete: 'CASCADE
 GiftClaim.belongsTo(Gift, { foreignKey: 'giftId', as: 'gift' })
 
 // O schema vem exclusivamente das migrations — sequelize.sync() nunca é chamado.
-export const models = { User, Session, Rsvp, Gift, GiftClaim }
+export const models = { User, Session, Rsvp, Gift, GiftClaim, Setting }
