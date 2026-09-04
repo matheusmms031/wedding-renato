@@ -587,3 +587,89 @@
     padding: var(--space-7) var(--space-5);
   }
 }
+
+/* ---------- Foto do presente ---------- */
+.gift-card__foto {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+/* ---------- Modal de pagamento ---------- */
+.modal__fundo {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5);
+  background: rgb(0 0 0 / 55%);
+}
+
+.modal {
+  width: 100%;
+  max-width: 380px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  background: var(--surface-card, #fff);
+  border: 1px solid var(--color-gold-light);
+  border-radius: 3px;
+  text-align: center;
+}
+
+.modal__titulo {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-heading);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.modal__valor {
+  margin: 0;
+  font-family: var(--font-label);
+  font-size: 20px;
+  letter-spacing: var(--tracking-label);
+  color: var(--color-gold-deep, var(--color-gold));
+}
+
+.modal__nota,
+.modal__erro {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-body);
+  line-height: 1.6;
+}
+
+.modal__nota {
+  color: var(--text-secondary);
+}
+
+.modal__erro {
+  color: var(--color-danger, #a3322b);
+}
+
+/* O SVG vem do backend sem dimensão fixa: o container é quem manda. */
+.modal__qr {
+  width: 220px;
+  max-width: 100%;
+}
+
+.modal__qr svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.modal__acoes {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+}

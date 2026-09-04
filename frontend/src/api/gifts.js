@@ -11,3 +11,5 @@ export function claimGift(giftId) {
 export function unclaimGift(giftId) {
   return apiFetch(`/gifts/${giftId}/claim`, { method: 'DELETE' })
 }
+
+export const getGiftPix = (giftId, options) => apiFetch(`/gifts/${giftId}/pix`, options)

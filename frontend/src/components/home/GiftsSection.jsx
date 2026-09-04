@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useState } from 'react'
-import { claimGift, listGifts, unclaimGift } from '../../api/gifts.js'
+import { listGifts, unclaimGift } from '../../api/gifts.js'
 import { Button, Card, ScriptHeading, SectionLabel } from '../ds/index.js'
+import { GiftPixModal } from './GiftPixModal.jsx'
 
 const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
 
 function GiftCard({ gift, onChange }) {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
+  const [pagando, setPagando] = useState(false)
 
   async function run(action) {
     setBusy(true)
@@ -25,6 +27,9 @@ function GiftCard({ gift, onChange }) {
 
   return (
     <Card className="gift-card" padding="0">
+      {gift.imageUrl && (
+        <img className="gift-card__foto" src={gift.imageUrl} alt={gift.name} loading="lazy" />
+      )}
       <div className="gift-card__body">
         <h3 className="gift-card__name">{gift.name}</h3>
         <p className="gift-card__desc">{gift.description}</p>
@@ -39,8 +44,8 @@ function GiftCard({ gift, onChange }) {
               {busy ? 'Aguarde…' : 'Desfazer'}
             </Button>
           ) : gift.available ? (
-            <Button size="sm" onClick={() => run(claimGift)} disabled={busy}>
-              {busy ? 'Aguarde…' : 'Presentear'}
+            <Button size="sm" onClick={() => setPagando(true)} disabled={busy}>
+              Presentear
             </Button>
           ) : (
             <Button variant="ghost" size="sm" disabled>
@@ -55,6 +60,10 @@ function GiftCard({ gift, onChange }) {
           </p>
         )}
       </div>
+
+      {pagando && (
+        <GiftPixModal gift={gift} onFechar={() => setPagando(false)} onConfirmado={onChange} />
+      )}
     </Card>
   )
 }
