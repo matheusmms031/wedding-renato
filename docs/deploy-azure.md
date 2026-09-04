@@ -162,3 +162,21 @@ docker compose -f docker-compose.prod.yml -f docker-compose.tls.yml up -d --buil
 
 Os certificados ficam no volume `caddy-data` e sobrevivem a isso. Não apague
 esse volume: o Let's Encrypt limita 5 emissões por domínio por semana.
+
+## 10. Os volumes que precisam sobreviver
+
+São **três**, e o `docker compose down -v` apaga todos:
+
+| Volume | O que guarda | Coberto por dump do Postgres? |
+|---|---|---|
+| `db-data` | Banco: convidados, RSVPs, presentes | sim |
+| `uploads-data` | **Imagens dos presentes** | **não** |
+| `caddy-data` | Certificado TLS | não (reemitível) |
+
+O `uploads-data` é a pegadinha: um backup só do banco deixa os presentes sem
+foto. Para copiá-lo:
+
+```bash
+docker run --rm -v wedding-renato-prod_uploads-data:/dados -v "$PWD":/backup \
+  alpine tar czf /backup/uploads.tar.gz -C /dados .
+```

@@ -34,3 +34,6 @@ credenciais-convidados.csv
 
 # Lock de arquivos abertos no LibreOffice
 .~lock.*#
+
+# Imagens enviadas pelo painel (em produção ficam em volume Docker)
+backend/uploads/

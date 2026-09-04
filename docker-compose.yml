@@ -38,6 +38,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME}
       DB_NAME_TEST: ${DB_NAME_TEST}
+      UPLOADS_DIR: /app/uploads
       SESSION_COOKIE_NAME: rm_session
       SESSION_TTL_DAYS: 30
       # HTTP puro em dev: um cookie Secure seria descartado em silêncio.
