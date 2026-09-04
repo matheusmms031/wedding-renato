@@ -1,6 +1,7 @@
 import { conflict, notFound } from '../lib/errors.js'
 import { hashPassword } from '../lib/password.js'
 import { destroyAllForUser } from './session.service.js'
+import { apagarImagem } from './upload.service.js'
 
 // ---------- Resumo ----------
 
@@ -157,7 +158,7 @@ export async function updateGift(models, id, payload) {
   return gift.update(payload)
 }
 
-export async function deleteGift(models, id) {
+export async function deleteGift(models, id, uploadsDir) {
   const gift = await models.Gift.findByPk(id)
   if (!gift) throw notFound('GIFT_NOT_FOUND', 'Presente não encontrado.')
 
@@ -170,5 +171,8 @@ export async function deleteGift(models, id) {
     )
   }
 
+  const imagem = gift.imageUrl
   await gift.destroy()
+  // Sem isto o arquivo fica órfão no volume para sempre.
+  await apagarImagem(uploadsDir, imagem)
 }

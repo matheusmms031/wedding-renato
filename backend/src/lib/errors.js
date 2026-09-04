@@ -19,4 +19,5 @@ export const unauthorized = (message = 'Sua sessão expirou. Entre novamente.') 
 export const forbidden = (message = 'Você não tem permissão para esta ação.') =>
   new AppError(403, 'FORBIDDEN', message)
 export const notFound = (code, message) => new AppError(404, code, message)
+export const payloadTooLarge = (code, message) => new AppError(413, code, message)
 export const conflict = (code, message, details) => new AppError(409, code, message, details)

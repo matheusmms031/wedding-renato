@@ -13,6 +13,7 @@ import {
   updateGiftSchema,
   updateGuestSchema,
   updateSettingsSchema,
+  uploadGiftImageSchema,
 } from '../schemas/admin.schema.js'
 
 export default async function adminRoutes(fastify) {
@@ -34,6 +35,8 @@ export default async function adminRoutes(fastify) {
   fastify.post('/gifts', { schema: createGiftSchema }, controller.createGift)
   fastify.patch('/gifts/:id', { schema: updateGiftSchema }, controller.updateGift)
   fastify.delete('/gifts/:id', { schema: deleteGiftSchema }, controller.deleteGift)
+
+  fastify.post('/gifts/:id/image', { schema: uploadGiftImageSchema }, controller.uploadGiftImage)
 
   fastify.get('/settings', { schema: getSettingsSchema }, controller.getSettings)
   fastify.put('/settings', { schema: updateSettingsSchema }, controller.updateSettings)

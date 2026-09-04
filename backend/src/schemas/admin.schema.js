@@ -199,3 +199,11 @@ export const updateSettingsSchema = {
     ...errors(400, 401, 403),
   },
 }
+
+export const uploadGiftImageSchema = {
+  params: uuidParam('id'),
+  response: {
+    200: { type: 'object', properties: { gift: giftShape } },
+    ...errors(400, 401, 403, 404, 413),
+  },
+}

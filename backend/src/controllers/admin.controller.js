@@ -1,6 +1,7 @@
 import { toPublicGift, toPublicUser } from '../lib/serializers.js'
 import * as adminService from '../services/admin.service.js'
 import * as settingsService from '../services/settings.service.js'
+import * as uploadService from '../services/upload.service.js'
 
 const iso = (value) => (value instanceof Date ? value.toISOString() : value)
 
@@ -97,7 +98,7 @@ export async function updateGift(request) {
 }
 
 export async function deleteGift(request, reply) {
-  await adminService.deleteGift(request.server.models, request.params.id)
+  await adminService.deleteGift(request.server.models, request.params.id, request.server.uploadsDir)
   return reply.code(204).send()
 }
 
@@ -107,4 +108,15 @@ export async function getSettings(request) {
 
 export async function updateSettings(request) {
   return { settings: await settingsService.salvar(request.server.models, request.body) }
+}
+
+export async function uploadGiftImage(request) {
+  const parte = await request.file()
+  const gift = await uploadService.salvarImagem(
+    request.server.models,
+    request.server.uploadsDir,
+    request.params.id,
+    parte,
+  )
+  return { gift: toPublicGift(gift) }
 }

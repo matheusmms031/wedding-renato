@@ -58,6 +58,10 @@ export const env = Object.freeze({
   // NODE_EXTRA_CA_CERTS para a CA do provedor e manter isto em true.
   DB_SSL_REJECT_UNAUTHORIZED: bool('DB_SSL_REJECT_UNAUTHORIZED', true),
 
+  // Dentro do container é o volume compartilhado com o nginx; fora, uma pasta
+  // local que o .gitignore cobre.
+  UPLOADS_DIR: process.env.UPLOADS_DIR ?? 'uploads',
+
   SESSION_COOKIE_NAME: process.env.SESSION_COOKIE_NAME ?? 'rm_session',
   SESSION_TTL_DAYS: int('SESSION_TTL_DAYS', 30),
   COOKIE_SECURE: bool('COOKIE_SECURE', false),

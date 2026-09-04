@@ -4,6 +4,7 @@ import authPlugin from './plugins/auth.js'
 import dbPlugin from './plugins/db.js'
 import errorHandler from './plugins/error-handler.js'
 import securityPlugin from './plugins/security.js'
+import uploadsPlugin from './plugins/uploads.js'
 import routes from './routes/index.js'
 
 /**
@@ -34,6 +35,7 @@ export async function buildApp(options = {}) {
   await fastify.register(dbPlugin)
   await fastify.register(securityPlugin)
   await fastify.register(authPlugin)
+  await fastify.register(uploadsPlugin)
   await fastify.register(routes)
 
   return fastify
