@@ -21,10 +21,12 @@ const TABS = [
   { id: 'confirmacoes', label: 'Confirmações' },
   { id: 'convidados', label: 'Convidados' },
   { id: 'presentes', label: 'Presentes' },
+  { id: 'pix', label: 'PIX' },
 ]
 
 const EMPTY_GUEST = { username: '', displayName: '', password: '', role: 'guest' }
 const EMPTY_GIFT = { slug: '', name: '', description: '', priceCents: '', quantity: '1' }
+const EMPTY_PIX = { pixKey: '', pixReceiverName: '', pixReceiverCity: '' }
 
 function fetchAll(signal) {
   return Promise.all([
@@ -32,6 +34,7 @@ function fetchAll(signal) {
     adminApi.listRsvps({ signal }),
     adminApi.listGuests({ signal }),
     adminApi.listGifts({ signal }),
+    adminApi.getSettings({ signal }),
   ])
 }
 
@@ -70,16 +73,18 @@ export function Admin() {
 
   const [guestForm, setGuestForm] = useState(EMPTY_GUEST)
   const [giftForm, setGiftForm] = useState(EMPTY_GIFT)
+  const [pixForm, setPixForm] = useState(EMPTY_PIX)
   const [busy, setBusy] = useState(false)
   const [resettingId, setResettingId] = useState(null)
   const [newPassword, setNewPassword] = useState('')
   const [confirmingId, setConfirmingId] = useState(null)
 
-  const apply = useCallback(([summaryData, rsvpData, guestData, giftData]) => {
+  const apply = useCallback(([summaryData, rsvpData, guestData, giftData, settingsData]) => {
     setSummary(summaryData)
     setRsvps(rsvpData.rsvps)
     setGuests(guestData.guests)
     setGifts(giftData.gifts)
+    setPixForm(settingsData.settings)
   }, [])
 
   const reload = useCallback(async () => apply(await fetchAll()), [apply])
@@ -137,6 +142,16 @@ export function Admin() {
       'Convidado criado.',
     )
     if (ok) setGuestForm(EMPTY_GUEST)
+  }
+
+  async function handleSalvarPix(event) {
+    event.preventDefault()
+    await run(() => adminApi.updateSettings(pixForm), 'Configuração do PIX salva.')
+  }
+
+  async function handleEnviarImagem(giftId, file) {
+    if (!file) return
+    await run(() => adminApi.uploadGiftImage(giftId, file), 'Imagem enviada.')
   }
 
   async function handleCreateGift(event) {
@@ -452,6 +467,7 @@ export function Admin() {
                     <tr>
                       <th>Presente</th>
                       <th>Preço</th>
+                      <th>Imagem</th>
                       <th>Escolhido</th>
                       <th>Por quem</th>
                       <th>Situação</th>
@@ -463,6 +479,29 @@ export function Admin() {
                       <tr key={gift.id}>
                         <td data-label="Presente">{gift.name}</td>
                         <td data-label="Preço">{brl.format(gift.priceCents / 100)}</td>
+                        <td data-label="Imagem">
+                          <div className="admin__imagem">
+                            {gift.imageUrl && (
+                              <img
+                                className="admin__miniatura"
+                                src={gift.imageUrl}
+                                alt={gift.name}
+                                loading="lazy"
+                              />
+                            )}
+                            <input
+                              type="file"
+                              accept="image/png,image/jpeg,image/webp"
+                              disabled={busy}
+                              onChange={(e) => {
+                                const file = e.target.files?.[0]
+                                // Zera o input para permitir reenviar o mesmo arquivo.
+                                e.target.value = ''
+                                void handleEnviarImagem(gift.id, file)
+                              }}
+                            />
+                          </div>
+                        </td>
                         <td data-label="Escolhido">
                           {gift.claimedCount} / {gift.quantity}
                         </td>
@@ -506,6 +545,54 @@ export function Admin() {
               </div>
             </Card>
           </>
+        )}
+
+        {tab === 'pix' && (
+          <Card className="admin__card" padding="var(--space-6)">
+            <h2 className="admin__card-title">Chave PIX dos presentes</h2>
+            <p className="admin__hint">
+              É esta chave que aparece no QR Code que o convidado vê ao escolher um presente. Sem
+              ela preenchida, o QR não é gerado.
+            </p>
+
+            <form className="admin__form" onSubmit={handleSalvarPix}>
+              <Input
+                label="Chave PIX (aleatória)"
+                value={pixForm.pixKey}
+                onChange={(e) => setPixForm({ ...pixForm, pixKey: e.target.value })}
+                placeholder="123e4567-e89b-12d3-a456-426614174000"
+                required
+              />
+
+              <Input
+                label="Nome do recebedor"
+                value={pixForm.pixReceiverName}
+                onChange={(e) => setPixForm({ ...pixForm, pixReceiverName: e.target.value })}
+                maxLength={25}
+                required
+              />
+              {/* Os limites abaixo são do padrão EMV do Bacen, não capricho:
+                  passar deles gera um QR que o app do banco recusa. */}
+              <p className="admin__hint">
+                {pixForm.pixReceiverName.length}/25 caracteres — limite do padrão do Bacen.
+              </p>
+
+              <Input
+                label="Cidade do recebedor"
+                value={pixForm.pixReceiverCity}
+                onChange={(e) => setPixForm({ ...pixForm, pixReceiverCity: e.target.value })}
+                maxLength={15}
+                required
+              />
+              <p className="admin__hint">
+                {pixForm.pixReceiverCity.length}/15 caracteres — limite do padrão do Bacen.
+              </p>
+
+              <Button type="submit" disabled={busy}>
+                {busy ? 'Salvando…' : 'Salvar'}
+              </Button>
+            </form>
+          </Card>
         )}
       </div>
     </main>

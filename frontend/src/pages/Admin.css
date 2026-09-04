@@ -252,3 +252,31 @@
     padding: var(--space-2) var(--space-3);
   }
 }
+
+/* ---------- Imagem do presente ---------- */
+.admin__imagem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.admin__miniatura {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 2px;
+  border: 1px solid var(--color-gold-light);
+}
+
+.admin__imagem input[type='file'] {
+  font-family: var(--font-serif);
+  font-size: 12px;
+  max-width: 190px;
+}
+
+.admin__hint {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
