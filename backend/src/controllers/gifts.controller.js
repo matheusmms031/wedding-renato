@@ -1,5 +1,6 @@
 import { toPublicGift } from '../lib/serializers.js'
 import * as giftService from '../services/gift.service.js'
+import * as pixService from '../services/pix.service.js'
 
 export async function index(request) {
   const rows = await giftService.list(request.server.models, request.user.id)
@@ -24,4 +25,8 @@ export async function unclaim(request, reply) {
     userId: request.user.id,
   })
   return reply.code(204).send()
+}
+
+export async function pix(request) {
+  return pixService.gerarQrDoPresente(request.server.models, request.params.giftId)
 }

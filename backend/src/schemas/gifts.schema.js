@@ -45,3 +45,17 @@ export const unclaimGiftSchema = {
     ...errors(401, 404),
   },
 }
+
+export const giftPixSchema = {
+  params: uuidParam('giftId'),
+  response: {
+    200: {
+      type: 'object',
+      properties: {
+        payload: { type: 'string' },
+        qrcodeSvg: { type: 'string' },
+      },
+    },
+    ...errors(401, 404, 409),
+  },
+}
