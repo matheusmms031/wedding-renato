@@ -16,7 +16,7 @@ export function Home() {
         Ir para o conteúdo
       </a>
       <SiteNavBar active="Início" />
-      <main>
+      <main className="fade-in">
         <Hero />
         <Story />
         <Couple />

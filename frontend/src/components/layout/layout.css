@@ -176,8 +176,41 @@
   color: var(--color-green-mist);
 }
 
+/* ---------- Entrada do conteúdo ---------- */
+
+/* O loader some e o conteúdo entrava de um quadro para o outro. Esmaece com
+   uma subida curta de 8px — o suficiente para o olho registrar que a página
+   chegou, sem virar animação de apresentação.
+
+   O sistema não tem fundação de movimento: nada de bounce nem spring, e a
+   duração fica na mesma ordem dos 200ms usados nos estados de hover. */
+@keyframes esmaecer {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.fade-in {
+  animation: esmaecer 420ms ease-out both;
+}
+
+/* Quem pediu menos movimento no sistema recebe só o esmaecimento, sem
+   deslocamento — e mesmo ele bem mais curto. */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in {
+    animation: esmaecer 1ms linear both;
+    transform: none;
+  }
+}
+
 /* ---------- PageLoader ---------- */
 .page-loader {
+  animation: esmaecer 420ms ease-out both;
   min-height: 60vh;
   display: flex;
   flex-direction: column;

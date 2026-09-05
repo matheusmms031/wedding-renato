@@ -196,7 +196,7 @@ export function Admin() {
   if (status === 'loading') return <PageLoader label="Carregando o painel…" />
 
   return (
-    <main className="admin">
+    <main className="admin fade-in">
       <header className="admin__head">
         <Monogram size={28} />
         <SectionLabel>Painel dos noivos</SectionLabel>

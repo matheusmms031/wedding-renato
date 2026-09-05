@@ -597,7 +597,10 @@
 }
 
 /* ---------- Modal de pagamento ---------- */
+/* O fundo escurece e o diálogo sobe junto: aparecer instantaneamente sobre a
+   página faz o olho perder de onde ele veio. */
 .modal__fundo {
+  animation: esmaecer 200ms ease-out both;
   position: fixed;
   inset: 0;
   z-index: 50;
@@ -609,6 +612,7 @@
 }
 
 .modal {
+  animation: esmaecer 280ms ease-out both;
   width: 100%;
   max-width: 380px;
   max-height: 90vh;
