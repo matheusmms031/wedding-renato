@@ -1,4 +1,5 @@
 import { Footer } from '../components/layout/Footer.jsx'
+import { Reveal } from '../components/layout/Reveal.jsx'
 import { SiteNavBar } from '../components/layout/SiteNavBar.jsx'
 import { Hero } from '../components/home/Hero.jsx'
 import { Story } from '../components/home/Story.jsx'
@@ -18,12 +19,24 @@ export function Home() {
       <SiteNavBar active="Início" />
       <main className="fade-in">
         <Hero />
-        <Story />
-        <Couple />
-        <Purpose />
-        <Venue />
-        <GiftsSection />
-        <RSVPSection />
+        <Reveal>
+          <Story />
+        </Reveal>
+        <Reveal>
+          <Couple />
+        </Reveal>
+        <Reveal>
+          <Purpose />
+        </Reveal>
+        <Reveal>
+          <Venue />
+        </Reveal>
+        <Reveal>
+          <GiftsSection />
+        </Reveal>
+        <Reveal>
+          <RSVPSection />
+        </Reveal>
       </main>
       <Footer />
     </>
