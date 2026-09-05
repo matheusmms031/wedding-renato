@@ -14,4 +14,26 @@
 --tracking-caps:0.12em;
 --leading-tight:1.15;
 --leading-normal:1.55;
+/* Cormorant é uma serifada de traço fino: 1.55 fica apertado em parágrafo
+   longo. Este é o leading do texto corrido do site. */
+--leading-relaxed:1.7;
+
+/* Tamanho real dos rótulos em caixa alta (Oswald). O --text-label de 14px
+   ficou grande demais na prática e nenhum lugar o usava. */
+--text-label-sm:11px;
+/* Rótulo em destaque: só a linha do convite no hero. Nomeado para que o
+   próximo rótulo grande use este valor em vez de inventar um terceiro. */
+--text-label-lg:13px;
+
+/* Dinheiro. Dois tamanhos porque são dois papéis: o preço listado no card e o
+   valor em destaque no modal de pagamento, onde ele é o dado principal. */
+--text-amount:16px;
+--text-amount-lg:20px;
+
+/* Medida: largura máxima de um bloco de texto, em caracteres.
+   Havia cinco valores diferentes espalhados pelo CSS, o que fazia os blocos
+   mudarem de largura de uma seção para outra conforme se rola a página. */
+--measure-narrow:34ch;  /* coluna estreita: perfis, convite do hero */
+--measure-lead:46ch;    /* frase de destaque, centralizada */
+--measure-prose:58ch;   /* parágrafos corridos */
 }

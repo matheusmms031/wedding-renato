@@ -69,7 +69,7 @@
 
 .hero__crest-caption {
   font-family: var(--font-label);
-  font-size: 11px;
+  font-size: var(--text-label-sm);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--color-green-mist);
@@ -87,12 +87,12 @@
 
 .hero__invite {
   font-family: var(--font-label);
-  font-size: 13px;
+  font-size: var(--text-label-lg);
   font-weight: 500;
-  letter-spacing: 0.2em;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--text-secondary);
-  max-width: 34ch;
+  max-width: var(--measure-narrow);
 }
 
 .hero__content .ds-script--lg {
@@ -156,12 +156,12 @@
 }
 
 .story__lead {
-  max-width: 46ch;
+  max-width: var(--measure-lead);
   margin: 0;
   font-family: var(--font-serif);
   font-size: var(--text-body-lg);
   font-style: italic;
-  line-height: 1.7;
+  line-height: var(--leading-relaxed);
   color: var(--text-secondary);
 }
 
@@ -199,7 +199,7 @@
 
 .timeline__when {
   font-family: var(--font-label);
-  font-size: 11px;
+  font-size: var(--text-label-sm);
   font-weight: 500;
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
@@ -218,7 +218,7 @@
   margin: 0;
   font-family: var(--font-serif);
   font-size: var(--text-body);
-  line-height: var(--leading-normal);
+  line-height: var(--leading-relaxed);
   color: var(--text-secondary);
 }
 
@@ -236,7 +236,7 @@
 /* Fecho isolado sobre o filete dourado — o mesmo motivo do SectionLabel, que
    é o divisor-assinatura do sistema. Sem ícone: não há iconografia aqui. */
 .story__fecho {
-  max-width: 46ch;
+  max-width: var(--measure-lead);
   margin: 0;
   padding-top: var(--space-6);
   border-top: 1px solid var(--color-gold-light);
@@ -244,7 +244,7 @@
   font-family: var(--font-serif);
   font-size: var(--text-body-lg);
   font-style: italic;
-  line-height: 1.7;
+  line-height: var(--leading-relaxed);
   color: var(--text-primary);
 }
 
@@ -297,7 +297,7 @@
 
 .profile__role {
   font-family: var(--font-label);
-  font-size: 11px;
+  font-size: var(--text-label-sm);
   font-weight: 500;
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
@@ -308,7 +308,7 @@
 
 .profile__text {
   margin: 0;
-  max-width: 34ch;
+  max-width: var(--measure-narrow);
   font-family: var(--font-serif);
   font-size: var(--text-body);
   line-height: var(--leading-normal);
@@ -328,11 +328,11 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  max-width: 58ch;
+  max-width: var(--measure-prose);
   margin: 0;
   font-family: var(--font-serif);
   font-size: var(--text-body-lg);
-  line-height: 1.75;
+  line-height: var(--leading-relaxed);
   color: var(--text-secondary);
 }
 
@@ -350,7 +350,7 @@
 .purpose__plans-title {
   margin: 0;
   font-family: var(--font-label);
-  font-size: 12px;
+  font-size: var(--text-label-sm);
   font-weight: 500;
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
@@ -376,15 +376,15 @@
 .scripture__quote {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: 22px;
+  font-size: var(--text-body-lg);
   font-style: italic;
-  line-height: 1.7;
+  line-height: var(--leading-relaxed);
   color: var(--text-primary);
 }
 
 .scripture__ref {
   font-family: var(--font-label);
-  font-size: 11px;
+  font-size: var(--text-label-sm);
   font-weight: 500;
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
@@ -487,7 +487,7 @@
 }
 
 .gifts__intro {
-  max-width: 52ch;
+  max-width: var(--measure-lead);
   margin: 0 auto;
   font-family: var(--font-serif);
   font-size: var(--text-body);
@@ -543,7 +543,7 @@
 
 .gift-card__price {
   font-family: var(--font-label);
-  font-size: 16px;
+  font-size: var(--text-amount);
   font-weight: 600;
   font-variant-numeric: lining-nums tabular-nums;
   color: var(--color-gold-deep);
@@ -553,7 +553,7 @@
 .gift-card__error {
   margin: 0;
   font-family: var(--font-label);
-  font-size: 11px;
+  font-size: var(--text-label-sm);
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
   color: var(--color-gold-deep);
@@ -639,7 +639,7 @@
 .modal__valor {
   margin: 0;
   font-family: var(--font-label);
-  font-size: 20px;
+  font-size: var(--text-amount-lg);
   letter-spacing: var(--tracking-label);
   color: var(--color-gold-deep, var(--color-gold));
 }
@@ -649,7 +649,7 @@
   margin: 0;
   font-family: var(--font-serif);
   font-size: var(--text-body);
-  line-height: 1.6;
+  line-height: var(--leading-relaxed);
 }
 
 .modal__nota {
