@@ -557,12 +557,16 @@ export function Admin() {
 
             <form className="admin__form" onSubmit={handleSalvarPix}>
               <Input
-                label="Chave PIX (aleatória)"
+                label="Chave PIX"
                 value={pixForm.pixKey}
                 onChange={(e) => setPixForm({ ...pixForm, pixKey: e.target.value })}
-                placeholder="123e4567-e89b-12d3-a456-426614174000"
+                placeholder="000.000.000-00"
                 required
               />
+              <p className="admin__hint">
+                CPF, CNPJ, e-mail, telefone ou chave aleatória. Pode digitar o CPF com pontos e
+                traço: a pontuação é removida antes de entrar no QR, como o Banco Central exige.
+              </p>
 
               <Input
                 label="Nome do recebedor"

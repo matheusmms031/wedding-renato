@@ -60,6 +60,47 @@ describe('montarPayloadPix', () => {
     )
   })
 
+  it('tira a pontuação de CPF, que o Bacen exige em dígitos puros', () => {
+    const payload = montarPayloadPix({
+      chave: '123.456.789-01',
+      nome: 'RENATO',
+      cidade: 'PALMAS',
+      valorCentavos: 100,
+    })
+
+    assert.ok(payload.includes('011112345678901'), 'CPF entra com 11 dígitos e tamanho 11')
+    assert.ok(!payload.includes('123.456.789-01'), 'a pontuação não sobra no payload')
+  })
+
+  it('tira a pontuação de CNPJ também', () => {
+    const payload = montarPayloadPix({
+      chave: '12.345.678/0001-95',
+      nome: 'RENATO',
+      cidade: 'PALMAS',
+      valorCentavos: 100,
+    })
+
+    assert.ok(payload.includes('011412345678000195'))
+  })
+
+  it('não mexe em e-mail, telefone nem chave aleatória', () => {
+    const casos = [
+      'renato@exemplo.com',
+      '+5563999999999',
+      '123e4567-e89b-12d3-a456-426614174000',
+    ]
+
+    for (const chave of casos) {
+      const payload = montarPayloadPix({
+        chave,
+        nome: 'RENATO',
+        cidade: 'PALMAS',
+        valorCentavos: 100,
+      })
+      assert.ok(payload.includes(chave), `manteve ${chave} intacta`)
+    }
+  })
+
   // O CRC16-CCITT é verificável: recalcular sobre tudo menos os 4 últimos
   // dígitos tem que devolver exatamente esses 4 dígitos.
   it('fecha com um CRC16-CCITT consistente', () => {

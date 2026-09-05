@@ -27,6 +27,25 @@ function ascii(texto) {
     .trim()
 }
 
+/**
+ * CPF e CNPJ entram no BR Code em dígitos puros — é o que o Bacen especifica.
+ *
+ * Colar "123.456.789-01" do jeito que se digita gera um QR que parece certo na
+ * tela e o app do banco recusa, sem erro em log nenhum. Normalizar aqui é mais
+ * barato que descobrir isso com um convidado tentando pagar.
+ *
+ * Só toca em chave que, sem pontuação, vira exatamente 11 ou 14 dígitos.
+ * E-mail, telefone e chave aleatória passam intactos.
+ */
+function normalizarChave(chave) {
+  const limpa = chave.trim()
+  const digitos = limpa.replace(/[.\-/\s]/g, '')
+
+  if (/^\d{11}$/.test(digitos) || /^\d{14}$/.test(digitos)) return digitos
+
+  return limpa
+}
+
 /** CRC16-CCITT (polinômio 0x1021, inicial 0xFFFF), sobre o payload inteiro. */
 function crc16(texto) {
   let crc = 0xffff
@@ -55,7 +74,7 @@ export function montarPayloadPix({ chave, nome, cidade, valorCentavos }) {
     throw new Error(`A cidade do recebedor passa de ${CAMPO_CIDADE_MAX} caracteres.`)
   }
 
-  const contaPix = tlv('00', 'br.gov.bcb.pix') + tlv('01', chave)
+  const contaPix = tlv('00', 'br.gov.bcb.pix') + tlv('01', normalizarChave(chave))
 
   const semCrc =
     tlv('00', '01') +
