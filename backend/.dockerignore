@@ -7,3 +7,6 @@ npm-debug.log*
 coverage
 test
 *.md
+# A pasta local não deve entrar na imagem: o diretório é criado no
+# Dockerfile com o dono certo, e o conteúdo vive no volume.
+uploads

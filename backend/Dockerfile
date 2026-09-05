@@ -30,7 +30,18 @@ FROM base AS prod
 ENV NODE_ENV=production
 COPY --from=deps-prod /app/node_modules ./node_modules
 COPY . .
-RUN chmod +x scripts/docker-entrypoint.sh && chown -R node:node /app
+# O mkdir de /app/uploads precisa acontecer AQUI, e não só em runtime.
+#
+# Ao montar um volume vazio, o Docker copia dono e permissões do diretório que
+# existe na imagem. Se ele não existir, o volume nasce root:root e o processo,
+# que roda como `node`, falha com EACCES na primeira gravação.
+#
+# Sem esta linha o upload funciona na máquina de quem já rodou o projeto (a
+# pasta local entra na imagem pelo COPY) e quebra em qualquer clone limpo —
+# que é justamente o servidor.
+RUN mkdir -p /app/uploads \
+  && chmod +x scripts/docker-entrypoint.sh \
+  && chown -R node:node /app
 USER node
 EXPOSE 3001
 CMD ["node", "src/server.js"]

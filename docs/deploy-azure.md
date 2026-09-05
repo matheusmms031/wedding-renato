@@ -163,6 +163,31 @@ docker compose -f docker-compose.prod.yml -f docker-compose.tls.yml up -d --buil
 Os certificados ficam no volume `caddy-data` e sobrevivem a isso. Não apague
 esse volume: o Let's Encrypt limita 5 emissões por domínio por semana.
 
+## 9.1 Se o upload de imagem der erro 500
+
+Sintoma: o painel recusa qualquer imagem e o log do backend mostra
+`EACCES: permission denied` em `/app/uploads`.
+
+Causa: o volume `uploads-data` foi criado antes de o Dockerfile passar a criar
+`/app/uploads`. Ao montar um volume vazio, o Docker copia dono e permissões do
+diretório que existe **na imagem** — se ele não existia, o volume nasceu
+`root:root`, e o backend roda como `node`.
+
+Rebuild **não conserta**: o Docker só define o dono no momento em que cria o
+volume. Ou apaga o volume (seguro enquanto não houver imagem enviada):
+
+```bash
+docker compose -f docker-compose.prod.yml -f docker-compose.tls.yml down
+docker volume rm wedding-renato-prod_uploads-data
+docker compose -f docker-compose.prod.yml -f docker-compose.tls.yml up -d --build
+```
+
+Ou, para preservar o que já subiu, corrige o dono no volume existente:
+
+```bash
+docker run --rm -v wedding-renato-prod_uploads-data:/d alpine chown -R 1000:1000 /d
+```
+
 ## 10. Os volumes que precisam sobreviver
 
 São **três**, e o `docker compose down -v` apaga todos:
