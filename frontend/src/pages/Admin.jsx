@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { Fragment, useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import * as adminApi from '../api/admin.js'
 import { useAuth } from '../auth/auth-context.js'
@@ -74,6 +74,8 @@ export function Admin() {
   const [guestForm, setGuestForm] = useState(EMPTY_GUEST)
   const [giftForm, setGiftForm] = useState(EMPTY_GIFT)
   const [pixForm, setPixForm] = useState(EMPTY_PIX)
+  const [editandoGiftId, setEditandoGiftId] = useState(null)
+  const [giftEdit, setGiftEdit] = useState(null)
   const [busy, setBusy] = useState(false)
   const [resettingId, setResettingId] = useState(null)
   const [newPassword, setNewPassword] = useState('')
@@ -142,6 +144,39 @@ export function Admin() {
       'Convidado criado.',
     )
     if (ok) setGuestForm(EMPTY_GUEST)
+  }
+
+  function abrirEdicaoGift(gift) {
+    setEditandoGiftId(gift.id)
+    // O preço vai para a tela em reais; o backend guarda em centavos.
+    setGiftEdit({
+      name: gift.name,
+      description: gift.description,
+      priceCents: String(gift.priceCents / 100),
+      quantity: String(gift.quantity),
+      sortOrder: String(gift.sortOrder),
+    })
+  }
+
+  function fecharEdicaoGift() {
+    setEditandoGiftId(null)
+    setGiftEdit(null)
+  }
+
+  async function handleSalvarGift(event, giftId) {
+    event.preventDefault()
+    const ok = await run(
+      () =>
+        adminApi.updateGift(giftId, {
+          name: giftEdit.name.trim(),
+          description: giftEdit.description.trim(),
+          priceCents: Math.round(Number(giftEdit.priceCents) * 100) || 0,
+          quantity: Number(giftEdit.quantity) || 1,
+          sortOrder: Number(giftEdit.sortOrder) || 0,
+        }),
+      'Presente atualizado.',
+    )
+    if (ok) fecharEdicaoGift()
   }
 
   async function handleSalvarPix(event) {
@@ -476,7 +511,8 @@ export function Admin() {
                   </thead>
                   <tbody>
                     {gifts.map((gift) => (
-                      <tr key={gift.id}>
+                      <Fragment key={gift.id}>
+                      <tr>
                         <td data-label="Presente">{gift.name}</td>
                         <td data-label="Preço">{brl.format(gift.priceCents / 100)}</td>
                         <td data-label="Imagem">
@@ -527,6 +563,18 @@ export function Admin() {
                               {gift.active ? 'Desativar' : 'Reativar'}
                             </Button>
                             <Button
+                              variant="secondary"
+                              size="sm"
+                              disabled={busy}
+                              onClick={() =>
+                                editandoGiftId === gift.id
+                                  ? fecharEdicaoGift()
+                                  : abrirEdicaoGift(gift)
+                              }
+                            >
+                              {editandoGiftId === gift.id ? 'Fechar' : 'Editar'}
+                            </Button>
+                            <Button
                               variant="ghost"
                               size="sm"
                               disabled={busy}
@@ -539,6 +587,87 @@ export function Admin() {
                           </div>
                         </td>
                       </tr>
+
+                      {editandoGiftId === gift.id && giftEdit && (
+                        <tr className="admin__row-edit">
+                          {/* colSpan cobre a tabela inteira: são cinco campos,
+                              que não cabem espremidos na célula de ações. */}
+                          <td colSpan={7}>
+                            <form
+                              className="admin__form admin__form--inline"
+                              onSubmit={(e) => void handleSalvarGift(e, gift.id)}
+                            >
+                              <Input
+                                label="Nome"
+                                value={giftEdit.name}
+                                onChange={(e) => setGiftEdit({ ...giftEdit, name: e.target.value })}
+                                required
+                              />
+                              <Textarea
+                                label="Descrição"
+                                rows={2}
+                                value={giftEdit.description}
+                                onChange={(e) =>
+                                  setGiftEdit({ ...giftEdit, description: e.target.value })
+                                }
+                              />
+                              <Input
+                                label="Preço (R$)"
+                                type="number"
+                                min="0"
+                                step="0.01"
+                                value={giftEdit.priceCents}
+                                onChange={(e) =>
+                                  setGiftEdit({ ...giftEdit, priceCents: e.target.value })
+                                }
+                                required
+                              />
+                              <Input
+                                label="Quantidade"
+                                type="number"
+                                min="1"
+                                value={giftEdit.quantity}
+                                onChange={(e) =>
+                                  setGiftEdit({ ...giftEdit, quantity: e.target.value })
+                                }
+                                required
+                              />
+                              {/* O backend recusa quantidade abaixo do que já foi
+                                  escolhido; o aviso poupa a viagem. */}
+                              {gift.claimedCount > 0 && (
+                                <p className="admin__hint">
+                                  Já escolhido {gift.claimedCount} vez(es) — a quantidade não pode
+                                  ficar abaixo disso.
+                                </p>
+                              )}
+                              <Input
+                                label="Ordem de exibição"
+                                type="number"
+                                value={giftEdit.sortOrder}
+                                onChange={(e) =>
+                                  setGiftEdit({ ...giftEdit, sortOrder: e.target.value })
+                                }
+                              />
+
+                              <div className="admin__actions">
+                                <Button type="submit" size="sm" disabled={busy}>
+                                  {busy ? 'Salvando…' : 'Salvar'}
+                                </Button>
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={fecharEdicaoGift}
+                                  disabled={busy}
+                                >
+                                  Cancelar
+                                </Button>
+                              </div>
+                            </form>
+                          </td>
+                        </tr>
+                      )}
+                      </Fragment>
                     ))}
                   </tbody>
                 </table>

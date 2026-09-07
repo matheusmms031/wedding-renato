@@ -280,3 +280,27 @@
   font-size: 13px;
   color: var(--text-secondary);
 }
+
+/* ---------- Edição de presente ---------- */
+.admin__row-edit > td {
+  /* A linha de edição pertence ao presente acima: o fundo levemente distinto
+     mostra isso sem precisar de borda ou título. */
+  background: var(--surface-alt, rgb(0 0 0 / 2%));
+  padding: var(--space-5);
+}
+
+.admin__form--inline {
+  max-width: 520px;
+}
+
+/* ---------- Edição de presente ---------- */
+.admin__row-edit > td {
+  /* Fundo levemente distinto mostra que a linha pertence ao presente acima,
+     sem precisar de borda nem de título repetindo o nome. */
+  background: rgb(0 0 0 / 2%);
+  padding: var(--space-5);
+}
+
+.admin__form--inline {
+  max-width: 520px;
+}
